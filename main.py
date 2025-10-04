@@ -55,12 +55,13 @@ async def submit_form(form: ContactForm):
         )
         
         # Send email via Resend
-        response = resend.send_email(
-            from_email=FROM_EMAIL,
-            to=[TO_EMAIL],
-            subject=f"{form.subject} - from {form.name}",
-            html=email_html
-        )
+        params = {
+            "from": FROM_EMAIL,
+            "to": [TO_EMAIL],
+            "subject": f"{form.subject} - from {form.name}",
+            "html": email_html
+        }
+        response = resend.Emails.send(params)
         return {"message": "Form submitted successfully!", "resend_response": response}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error sending email: {e}")
