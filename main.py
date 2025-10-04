@@ -9,9 +9,10 @@ import secrets
 from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime, timedelta
-from database import SessionLocal, VerifiedForm
 
 load_dotenv()
+
+from database import SessionLocal, VerifiedForm
 
 # Load email templates
 template_path = Path(__file__).parent / "templates" / "email_template.html"
