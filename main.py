@@ -2,7 +2,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
-from resend import Resend
+import resend
 import os
 from dotenv import load_dotenv
 from pathlib import Path
@@ -19,7 +19,7 @@ FROM_EMAIL = os.getenv("FROM_EMAIL")
 TO_EMAIL = os.getenv("TO_EMAIL")
 FRONTEND_URL = os.getenv("FRONTEND_URL")  # e.g., https://your-frontend.com
 
-resend = Resend(api_key=RESEND_API_KEY)
+resend.api_key = RESEND_API_KEY
 
 app = FastAPI(title="Contact Form API")
 
@@ -64,4 +64,4 @@ async def submit_form(form: ContactForm):
         response = resend.Emails.send(params)
         return {"message": "Form submitted successfully!", "resend_response": response}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error sending email: {e}")
+        raise HTTPException(status_code=500, detail=f"Error sending email: {str(e)}")
