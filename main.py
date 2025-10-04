@@ -55,7 +55,7 @@ async def submit_form(form: ContactForm):
         )
         
         # Send email via Resend
-        response = resend.emails.send(
+        response = resend.send_email(
             from_email=FROM_EMAIL,
             to=[TO_EMAIL],
             subject=f"{form.subject} - from {form.name}",
