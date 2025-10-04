@@ -24,7 +24,7 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 ### Step 1: Copy This Form
 
 ```html
-<form action="https://your-api.vercel.app/submit" method="POST">
+<form action="https://contact-portfolio-form.vercel.app/submit" method="POST">
   <!-- CHANGE THESE VALUES -->
   <input type="hidden" name="to" value="your@email.com" />
   <input type="hidden" name="website_name" value="My Website" />
@@ -82,6 +82,7 @@ Create a `.env` file:
 RESEND_API_KEY=your_resend_api_key_here
 FROM_EMAIL=noreply@yourdomain.com
 BASE_URL=http://localhost:8000
+DATABASE_URL=postgresql://user:password@host:port/database
 ```
 
 ### 3. Run Locally
@@ -91,8 +92,6 @@ uvicorn main:app --reload
 ```
 
 API will be available at `http://localhost:8000`
-
-Test with `example_form.html` by opening it in your browser.
 
 ## 📡 API Endpoints
 
@@ -195,9 +194,8 @@ verified_forms:
    - `RESEND_API_KEY`
    - `FROM_EMAIL`
    - `BASE_URL` (your Vercel URL)
+   - `DATABASE_URL` (PostgreSQL connection string)
 4. Redeploy: `vercel --prod`
-
-**Note:** For production, consider using PostgreSQL instead of SQLite.
 
 ## 📧 Email Templates
 
