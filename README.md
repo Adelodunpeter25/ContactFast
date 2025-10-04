@@ -8,11 +8,10 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 - **Email Verification** - First submission triggers activation email to recipient
 - **Secure** - Rate limiting, origin validation, spam prevention
 - **Multi-Tenant** - Unlimited users can use the same API
-- **Simple Integration** - Just HTML form, no JavaScript required
-
+- **Simple Integration** - No backend, no third party integration
 ## 🎯 How It Works
 
-1. User copies form HTML template
+1. User copies code snippet for their desired framework
 2. Changes `to` email to their own
 3. Adds form to their website
 4. First submission sends activation email
@@ -21,23 +20,9 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 
 ## 📋 For Users (How to Use)
 
-### Step 1: Copy This Form
+### Step 1: Copy Your Desired Code Snippet
 
-```html
-<form action="https://contact-portfolio-form.vercel.app/submit" method="POST">
-  <!-- CHANGE THESE VALUES -->
-  <input type="hidden" name="to" value="your@email.com" />
-  <input type="hidden" name="website_name" value="My Website" />
-  <input type="hidden" name="website_url" value="https://mywebsite.com" />
-  
-  <!-- Form Fields -->
-  <input type="text" name="name" placeholder="Your Name" required />
-  <input type="email" name="email" placeholder="Your Email" required />
-  <input type="text" name="subject" placeholder="Subject" required />
-  <textarea name="message" placeholder="Your Message" required></textarea>
-  <button type="submit">Send Message</button>
-</form>
-```
+[View All Code Snippets](./FORM_EXAMPLES.md)
 
 ### Step 2: Customize
 
