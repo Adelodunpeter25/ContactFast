@@ -1,6 +1,6 @@
 # Zero-Setup Contact Form API
 
-A FastAPI-based contact form API that requires **no signup or configuration** for users. Just copy-paste the form HTML and you're done!
+A FastAPI-based contact form API that requires **no signup or configuration** for users. Just copy-paste the form code snippet and you are done!
 
 ## 🚀 Features
 
@@ -137,39 +137,8 @@ Returns HTML page confirming activation.
 ## 🔒 Security Features
 
 ### Rate Limiting
-- 5 submissions per hour per IP address
-- 10 submissions per hour per activated form
-- 3 activation emails per day per recipient email
-
 ### Validation
-- Origin header validation
-- Email format validation
-- Required field validation
-- Minimum message length
-
 ### Abuse Prevention
-- Form must be activated before use
-- Recipient controls activation
-- Rate limits prevent spam
-- Database tracks all submissions
-
-## 📊 Database Schema
-
-```sql
-verified_forms:
-- form_hash (primary key) - unique identifier
-- recipient_email - where submissions are sent
-- origin_domain - website domain
-- website_name - site name
-- website_url - site URL
-- verified - activation status
-- activation_token - unique token for activation
-- created_at - timestamp
-- last_submission_at - last submission time
-- submission_count - total submissions
-```
-
-## 🚀 Deployment
 
 ### Vercel
 
@@ -182,19 +151,6 @@ verified_forms:
    - `DATABASE_URL` (PostgreSQL connection string)
 4. Redeploy: `vercel --prod`
 
-## 📧 Email Templates
-
-### Activation Email
-- Gradient header (aquamarine to purple)
-- Shows website name and URL
-- Clear activation button
-- Security notice
-
-### Submission Email
-- Professional formatting
-- Shows sender details
-- Displays message content
-- Includes website context
 
 ## 🎨 Customization
 
