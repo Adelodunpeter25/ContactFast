@@ -41,7 +41,7 @@ class ContactForm(BaseModel):
 
 @app.get("/")
 async def health_check():
-    return {"Contact Api Status": "Healthy"}
+    return {"contact api status": "healthy"}
 
 @app.post("/submit")
 async def submit_form(form: ContactForm):
