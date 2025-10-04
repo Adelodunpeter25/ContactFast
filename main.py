@@ -26,7 +26,7 @@ app = FastAPI(title="Contact Form API")
 # Enable CORS for your frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[FRONTEND_URL],
+    allow_origins=["https://adelodunpeter.vercel.app", FRONTEND_URL] if FRONTEND_URL else ["https://adelodunpeter.vercel.app"],
     allow_credentials=True,
     allow_methods=["POST", "GET", "OPTIONS"],
     allow_headers=["*"],
