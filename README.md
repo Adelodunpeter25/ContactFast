@@ -55,7 +55,8 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 ## 🛠️ Tech Stack
 
 - FastAPI
-- SQLAlchemy (SQLite database)
+- SQLAlchemy
+- PostgreSQL (Database)
 - Resend (Email service)
 - Pydantic (Data validation)
 - Python 3.13+
