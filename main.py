@@ -7,10 +7,10 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-# Load environment variables from .env (optional if set in Vercel)
+# Load environment variables from .env
 load_dotenv()
 
-# Load email template
+# Load email template for recieving contact form data
 template_path = Path(__file__).parent / "email_template.html"
 EMAIL_TEMPLATE = template_path.read_text()
 
@@ -21,12 +21,12 @@ FRONTEND_URL = os.getenv("FRONTEND_URL")  # e.g., https://your-frontend.com
 
 resend.api_key = RESEND_API_KEY
 
-app = FastAPI(title="Contact Form API")
+app = FastAPI(title="Contact Form Submission API")
 
 # Enable CORS for your frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://adelodunpeter.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,9 +39,9 @@ class ContactForm(BaseModel):
     subject: str
     message: str
 
-@app.get("/health")
+@app.get("/")
 async def health_check():
-    return {"status": "healthy"}
+    return {"Contact Api Status": "Healthy"}
 
 @app.post("/submit")
 async def submit_form(form: ContactForm):
