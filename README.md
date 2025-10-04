@@ -134,11 +134,7 @@ GET /activate/{token}
 
 Returns HTML page confirming activation.
 
-## 🔒 Security Features
-
-### Rate Limiting
-### Validation
-### Abuse Prevention
+## Deployment
 
 ### Vercel
 
