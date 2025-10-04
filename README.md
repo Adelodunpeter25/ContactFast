@@ -154,7 +154,7 @@ Users can style the form however they want. The API only cares about the form da
 
 ## 📝 License
 
-MIT
+MIT License
 
 ## 🤝 Contributing
 
