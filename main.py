@@ -31,7 +31,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-)
 
 # Pydantic model for incoming form data
 class ContactForm(BaseModel):
