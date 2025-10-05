@@ -1,4 +1,4 @@
-# Zero-Setup Contact Form API
+# ContactFast
 
 A FastAPI-based contact form API that requires **no signup or configuration** for users. Just copy-paste the form code snippet and you are done!
 
