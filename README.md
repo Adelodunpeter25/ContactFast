@@ -5,7 +5,7 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 ## 🚀 Features
 
 - **Zero Setup** - No account creation, no API keys, no dashboard
-- **Email Verification** - First submission triggers activation email to recipient
+- **Auto Verification** - First submission automatically verifies your domain
 - **Secure** - Rate limiting, origin validation, spam prevention
 - **Multi-Tenant** - Unlimited users can use the same API
 - **Simple Integration** - No backend, no third party integration
@@ -14,15 +14,18 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 1. User copies code snippet for their desired framework
 2. Changes `to` email to their own
 3. Adds form to their website
-4. First submission sends activation email
-5. User clicks activation link
-6. All future submissions work automatically
+4. First submission auto-verifies the domain and sends:
+   - The contact form submission
+   - A verification confirmation email
+5. All future submissions work automatically
 
 ## 📋 For Users (How to Use)
 
 ### Step 1: Copy Your Desired Code Snippet
 
+
 [View All Code Snippets](./FORM_EXAMPLES.md)
+
 
 ### Step 2: Customize
 
@@ -33,9 +36,10 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 ### Step 3: Test
 
 - Submit the form once
-- Check your email for activation link
-- Click the link to activate
-- Done! All future submissions will arrive in your inbox
+- Check your email for:
+  - The submitted contact form
+  - A verification confirmation email
+- Done! Your domain is automatically verified and all future submissions will arrive in your inbox.
 
 ## 🛠️ Tech Stack
 
@@ -44,7 +48,6 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 - PostgreSQL (Database)
 - Resend (Email service)
 - Pydantic (Data validation)
-- Python 3.13+
 
 ## 🔧 Setup (For Developers)
 
@@ -89,7 +92,7 @@ Response:
 ```json
 {
   "status": "healthy",
-  "message": "Zero-Setup Contact Form API"
+  "message": "CoontactFast API"
 }
 ```
 
@@ -114,25 +117,19 @@ Request Body:
 **First Submission Response:**
 ```json
 {
-  "message": "Activation required",
-  "detail": "A confirmation email has been sent to recipient@example.com..."
+  "message": "Form submitted successfully! Domain auto-verified.",
+  "domain": "example.com",
+  "resend_response": {...}
 }
 ```
 
-**After Activation:**
+**Subsequent Submissions:**
 ```json
 {
   "message": "Form submitted successfully!",
   "resend_response": {...}
 }
 ```
-
-### Activate Form
-```
-GET /activate/{token}
-```
-
-Returns HTML page confirming activation.
 
 ## Deployment
 
