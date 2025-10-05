@@ -7,7 +7,7 @@
 ## HTML
 
 ```html
-<form action="https://contact-portfolio-form.vercel.app/submit" method="POST">
+<form action="https://contact-fast.vercel.app/submit" method="POST">
   <input type="hidden" name="to" value="your@email.com" />
   <input type="hidden" name="website_name" value="My Website" />
   <input type="hidden" name="website_url" value="https://mywebsite.com" />
@@ -38,7 +38,7 @@
 document.getElementById('contactForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   
-  const response = await fetch('https://contact-portfolio-form.vercel.app/submit', {
+  const response = await fetch('https://contact-fast.vercel.app/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -72,7 +72,7 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const res = await fetch('https://contact-portfolio-form.vercel.app/submit', {
+    const res = await fetch('https://contact-fast.vercel.app/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -124,7 +124,7 @@ const form = reactive({ name: '', email: '', subject: '', message: '' });
 const status = ref('');
 
 const submit = async () => {
-  const res = await fetch('https://contact-portfolio-form.vercel.app/submit', {
+  const res = await fetch('https://contact-fast.vercel.app/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -157,7 +157,7 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const res = await fetch('https://contact-portfolio-form.vercel.app/submit', {
+    const res = await fetch('https://contact-fast.vercel.app/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -218,7 +218,7 @@ export class ContactFormComponent {
   constructor(private http: HttpClient) {}
 
   submit() {
-    this.http.post('https://contact-portfolio-form.vercel.app/submit', {
+    this.http.post('https://contact-fast.vercel.app/submit', {
       to: 'your@email.com',
       website_name: 'My Website',
       website_url: 'https://mywebsite.com',
@@ -247,6 +247,5 @@ Update these values in the code:
 ## Setup
 
 1. Add form to your website
-2. Submit once to receive activation email
-3. Click activation link
-4. Done! Future submissions arrive automatically
+2. Submit once to test
+3. Done! Your domain is automatically verified
