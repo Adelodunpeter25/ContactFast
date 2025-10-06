@@ -28,8 +28,20 @@ This document outlines how you can contribute safely and effectively to the proj
 
 ---
 
+## Branching and Workflow
 
-Open a Pull Request against the `main` branch.
+### Branch Naming
+- `feature/description` - New features
+- `fix/description` - Bug fixes
+- `docs/description` - Documentation updates
+- `refactor/description` - Code refactoring
+
+### Workflow
+1. Fork the repository
+2. Create a feature branch from `main`
+3. Make your changes with clear, descriptive commits
+4. Test locally with `uvicorn main:app --reload`
+5. Open a Pull Request against the `main` branch
 
 ---
 
