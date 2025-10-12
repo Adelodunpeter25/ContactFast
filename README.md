@@ -131,20 +131,6 @@ Request Body:
 }
 ```
 
-## Deployment
-
-### Vercel
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Deploy: `vercel`
-3. Set environment variables in Vercel dashboard:
-   - `RESEND_API_KEY`
-   - `FROM_EMAIL`
-   - `BASE_URL` (your Vercel URL)
-   - `DATABASE_URL` (PostgreSQL connection string)
-4. Redeploy: `vercel --prod`
-
-
 ## 🎨 Customization
 
 Users can style the form however they want. The API only cares about the form data, not the styling.
