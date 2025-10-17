@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from routes.contact import router as contact_router
+from routes.info import router as info_router
 
 app = FastAPI(title="ContactFast")
 
@@ -31,3 +32,4 @@ async def root():
 
 # Include routers
 app.include_router(contact_router)
+app.include_router(info_router)
