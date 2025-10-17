@@ -67,10 +67,9 @@ async def analytics_dashboard(request: Request):
             VerifiedDomain.submission_count >= 50
         ).count()
         
-        # Potential rate limited domains (>5 submissions in last hour estimate)
-        one_hour_ago = datetime.utcnow() - timedelta(hours=1)
-        recent_active = db.query(VerifiedDomain).filter(
-            VerifiedDomain.last_submission_at >= one_hour_ago
+        # Domains approaching rate limits (8+ submissions - close to 10/hour limit)
+        rate_limit_risk = db.query(VerifiedDomain).filter(
+            VerifiedDomain.submission_count >= 8
         ).count()
         
         # Email recipients data
@@ -90,7 +89,7 @@ async def analytics_dashboard(request: Request):
             'active_last_7d': active_last_7d,
             'average_submissions_per_domain': round(total_submissions / total_domains, 2) if total_domains > 0 else 0,
             'high_volume_domains': high_volume_domains,
-            'recent_active_domains': recent_active
+            'rate_limit_risk': rate_limit_risk
         }
         
         return templates.TemplateResponse("analytics.html", {
