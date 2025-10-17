@@ -26,7 +26,6 @@ async def root():
         "documentation": "/docs",
         "endpoints": {
             "submit": "/submit",
-            "docs": "/docs",
         }
     }
 
