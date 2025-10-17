@@ -131,10 +131,6 @@ Request Body:
 }
 ```
 
-## 🎨 Customization
-
-Users can style the form however they want. The API only cares about the form data, not the styling.
-
 ## 📝 License
 
 MIT License
