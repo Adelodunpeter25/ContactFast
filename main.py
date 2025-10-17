@@ -6,6 +6,7 @@ load_dotenv()
 
 from routes.contact import router as contact_router
 from routes.info import router as info_router
+from routes.info import router as info_router
 
 app = FastAPI(title="ContactFast")
 

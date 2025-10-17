@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, EmailStr
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
 from pathlib import Path
@@ -8,6 +7,7 @@ import os
 import re
 
 from database import SessionLocal, VerifiedDomain
+from schemas import ContactForm
 
 router = APIRouter()
 
@@ -30,14 +30,7 @@ DISPOSABLE_DOMAINS = {
     'temp-mail.org', 'getnada.com', 'maildrop.cc', 'sharklasers.com'
 }
 
-class ContactForm(BaseModel):
-    to: EmailStr
-    website_name: str
-    website_url: str
-    name: str
-    email: EmailStr
-    subject: str
-    message: str
+
 
 def extract_domain(website_url: str) -> str:
     """Extract domain from website URL"""
