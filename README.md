@@ -9,6 +9,7 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 - **Secure** - Rate limiting, origin validation, spam prevention
 - **Multi-Tenant** - Unlimited users can use the same API
 - **Simple Integration** - No backend, no third party integration
+
 ## 🎯 How It Works
 
 1. User copies code snippet for their desired framework
@@ -23,9 +24,7 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 
 ### Step 1: Copy Your Desired Code Snippet
 
-
 [View All Code Snippets](./FORM_EXAMPLES.md)
-
 
 ### Step 2: Customize
 
@@ -54,12 +53,15 @@ A FastAPI-based contact form API that requires **no signup or configuration** fo
 ### 1. Clone and Install
 
 ```bash
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Clone the repository
+git clone https://github.com/Adelodunpeter25/ContactFast.git
+cd ContactFast
 
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies using uv
+uv sync
+
+# For development with code quality tools
+uv sync --extra dev
 ```
 
 ### 2. Environment Variables
@@ -76,25 +78,29 @@ DATABASE_URL=postgresql://user:password@host:port/database
 ### 3. Run Locally
 
 ```bash
-uvicorn main:app --reload
+# Activate virtual environment and run
+uv run uvicorn main:app --reload
 ```
 
 API will be available at `http://localhost:8000`
 
+### 4. Development Tools
+
+```bash
+# Code formatting
+uv run black .
+
+# Linting
+uv run ruff check .
+
+# Type checking
+uv run mypy .
+
+# Auto-fix linting issues
+uv run ruff check . --fix
+```
+
 ## 📡 API Endpoints
-
-### Health Check
-```
-GET /
-```
-
-Response:
-```json
-{
-  "status": "healthy",
-  "message": "CoontactFast API"
-}
-```
 
 ### Submit Contact Form
 ```
@@ -141,4 +147,4 @@ Contributions welcome! Please open an issue or PR.
 
 ---
 
-**Built with ❤️ for developers who want simple contact forms without the hassle.**
+**Built by developers for developers who want simple contact forms without the hassle.**
