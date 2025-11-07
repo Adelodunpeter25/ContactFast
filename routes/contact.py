@@ -5,16 +5,17 @@ Handles contact form submissions with auto-verification, spam protection,
 rate limiting, and email delivery via Resend API.
 """
 
-from fastapi import APIRouter, HTTPException, Request
+import os
 from datetime import datetime
 from pathlib import Path
+
 import resend
-import os
+from fastapi import APIRouter, HTTPException, Request
 
 from core.database import SessionLocal, VerifiedDomain
 from core.schemas import ContactForm
-from utils.validation import extract_domain, is_disposable_email, is_spam_content
 from utils.rate_limit import check_rate_limit
+from utils.validation import extract_domain, is_disposable_email, is_spam_content
 
 router = APIRouter()
 
@@ -27,37 +28,45 @@ FROM_EMAIL = os.getenv("FROM_EMAIL")
 
 resend.api_key = RESEND_API_KEY
 
+
 @router.post("/submit")
-async def submit_form(request: Request, form: ContactForm):
+async def submit_form(request: Request, form: ContactForm) -> dict[str, str | dict]:
     client_ip = request.client.host
     db = SessionLocal()
-    
+
     try:
         # Rate limiting by IP
         if not check_rate_limit(f"ip_{client_ip}", 5, 60):
-            raise HTTPException(status_code=429, detail="Too many requests. Please try again later.")
-        
+            raise HTTPException(
+                status_code=429, detail="Too many requests. Please try again later."
+            )
+
         # Spam prevention checks
         if is_disposable_email(form.email):
-            raise HTTPException(status_code=400, detail="Disposable email addresses are not allowed")
-        
+            raise HTTPException(
+                status_code=400, detail="Disposable email addresses are not allowed"
+            )
+
         if is_disposable_email(form.to):
             raise HTTPException(status_code=400, detail="Invalid recipient email")
-        
+
         if is_spam_content(form.message, form.subject):
             raise HTTPException(status_code=400, detail="Message flagged as spam")
-        
+
         # Extract domain
         domain = extract_domain(form.website_url)
         if not domain:
             raise HTTPException(status_code=400, detail="Invalid website URL")
-        
+
         # Rate limiting by domain (10 per hour)
         if not check_rate_limit(f"domain_{domain}", 10, 60):
-            raise HTTPException(status_code=429, detail="Domain rate limit exceeded. Please try again later.")
-        
+            raise HTTPException(
+                status_code=429,
+                detail="Domain rate limit exceeded. Please try again later.",
+            )
+
         verified_domain = db.query(VerifiedDomain).filter_by(domain=domain).first()
-        
+
         if not verified_domain:
             # First time submission - auto-verify and send both emails
             new_domain = VerifiedDomain(
@@ -67,32 +76,35 @@ async def submit_form(request: Request, form: ContactForm):
                 website_url=form.website_url,
                 verified=True,
                 submission_count=1,
-                last_submission_at=datetime.utcnow()
+                last_submission_at=datetime.utcnow(),
             )
             db.add(new_domain)
             db.commit()
-            
+
             # Send the contact form submission
             email_html = EMAIL_TEMPLATE.format(
                 name=form.name,
                 email=form.email,
                 subject=form.subject,
-                message=form.message
+                message=form.message,
             )
-            
+
             params = {
                 "from": FROM_EMAIL,
                 "to": [form.to],
                 "subject": f"New message from {form.website_name} - {form.subject}",
-                "html": email_html
+                "html": email_html,
             }
-            
+
             try:
                 response = resend.Emails.send(params)
-            except Exception as email_error:
+            except Exception:
                 db.rollback()
-                raise HTTPException(status_code=500, detail="Failed to send email. Please try again later.")
-            
+                raise HTTPException(
+                    status_code=500,
+                    detail="Failed to send email. Please try again later.",
+                ) from None
+
             # Send verification notification
             verification_html = f"""
             <html>
@@ -104,59 +116,58 @@ async def submit_form(request: Request, form: ContactForm):
                 </body>
             </html>
             """
-            
+
             verification_params = {
                 "from": FROM_EMAIL,
                 "to": [form.to],
                 "subject": f"ContactFast: {domain} Auto-Verified ✅",
-                "html": verification_html
+                "html": verification_html,
             }
-            
+
             try:
                 resend.Emails.send(verification_params)
-            except:
+            except Exception:
                 pass  # Don't fail if verification email fails
-            
+
             return {
                 "message": "Form submitted successfully! Domain auto-verified.",
                 "domain": domain,
-                "resend_response": response
+                "resend_response": response,
             }
-        
+
         # Send submission email
         email_html = EMAIL_TEMPLATE.format(
-            name=form.name,
-            email=form.email,
-            subject=form.subject,
-            message=form.message
+            name=form.name, email=form.email, subject=form.subject, message=form.message
         )
-        
+
         params = {
             "from": FROM_EMAIL,
             "to": [form.to],
             "subject": f"New message from {form.website_name} - {form.subject}",
-            "html": email_html
+            "html": email_html,
         }
-        
+
         try:
             response = resend.Emails.send(params)
-        except Exception as email_error:
-            raise HTTPException(status_code=500, detail="Failed to send email. Please try again later.")
-        
+        except Exception:
+            raise HTTPException(
+                status_code=500, detail="Failed to send email. Please try again later."
+            ) from None
+
         # Update stats
         verified_domain.last_submission_at = datetime.utcnow()
         verified_domain.submission_count += 1
         db.commit()
-        
-        return {
-            "message": "Form submitted successfully!",
-            "resend_response": response
-        }
-    
+
+        return {"message": "Form submitted successfully!", "resend_response": response}
+
     except HTTPException:
         raise
-    except Exception as e:
+    except Exception:
         db.rollback()
-        raise HTTPException(status_code=500, detail="An unexpected error occurred. Please try again later.")
+        raise HTTPException(
+            status_code=500,
+            detail="An unexpected error occurred. Please try again later.",
+        ) from None
     finally:
         db.close()

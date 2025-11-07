@@ -5,9 +5,11 @@ Defines request/response models for contact forms, domain statistics,
 and analytics data with proper type validation.
 """
 
-from pydantic import BaseModel, EmailStr
-from typing import Optional, List
 from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, EmailStr
+
 
 # Contact form schemas
 class ContactForm(BaseModel):
@@ -18,6 +20,7 @@ class ContactForm(BaseModel):
     email: EmailStr
     subject: str
     message: str
+
 
 # Info/Analytics schemas
 class DomainStats(BaseModel):
@@ -30,12 +33,14 @@ class DomainStats(BaseModel):
     last_submission_at: Optional[datetime]
     submission_count: int
 
+
 class AnalyticsSummary(BaseModel):
     total_domains: int
     total_submissions: int
     verified_domains: int
     active_domains_last_30_days: int
-    top_domains: List[DomainStats]
+    top_domains: list[DomainStats]
+
 
 class DomainActivity(BaseModel):
     domain: str

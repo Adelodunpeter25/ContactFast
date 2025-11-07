@@ -5,17 +5,19 @@ SQLAlchemy setup with PostgreSQL backend for storing verified domains
 and tracking submission statistics.
 """
 
-from sqlalchemy import create_engine, Column, String, Boolean, Integer, DateTime
+import os
+from datetime import datetime
+
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
-import os
 
 Base = declarative_base()
 
+
 class VerifiedDomain(Base):
     __tablename__ = "verified_domains"
-    
+
     domain = Column(String, primary_key=True)
     recipient_email = Column(String, nullable=False)
     website_name = Column(String, nullable=False)
@@ -24,6 +26,7 @@ class VerifiedDomain(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     last_submission_at = Column(DateTime, nullable=True)
     submission_count = Column(Integer, default=0)
+
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

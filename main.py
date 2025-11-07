@@ -6,21 +6,21 @@ without requiring user signup or configuration. Features auto-verification,
 spam protection, and multi-tenant support.
 """
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-
-load_dotenv()
 
 from routes.contact import router as contact_router
 from routes.info import router as info_router
+
+load_dotenv()
 
 app = FastAPI(
     title="ContactFast",
     description="A zero-setup contact form API that requires no signup or configuration. Just copy-paste the form code snippet and you are done!",
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # Allow all origins since users can embed from anywhere
