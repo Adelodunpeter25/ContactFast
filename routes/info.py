@@ -1,3 +1,10 @@
+"""
+Information and analytics routes.
+
+Provides API health check endpoint and analytics dashboard
+for monitoring domain usage and submission statistics.
+"""
+
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -7,6 +14,21 @@ from datetime import datetime, timedelta
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
+
+@router.get("/")
+async def root():
+    """
+    Health check and API information endpoint.
+    """
+    return {
+        "name": "ContactFast",
+        "description": "A FastAPI-based contact form API that requires zero setup",
+        "version": "1.0.0",
+        "documentation": "/docs",
+        "endpoints": {
+            "submit": "/submit",
+        }
+    }
 
 @router.get("/info/analytics", response_class=HTMLResponse)
 async def analytics_dashboard(request: Request):

@@ -1,3 +1,10 @@
+"""
+Pydantic schemas for data validation.
+
+Defines request/response models for contact forms, domain statistics,
+and analytics data with proper type validation.
+"""
+
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List
 from datetime import datetime

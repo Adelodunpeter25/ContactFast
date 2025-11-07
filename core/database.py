@@ -1,3 +1,10 @@
+"""
+Database configuration and models.
+
+SQLAlchemy setup with PostgreSQL backend for storing verified domains
+and tracking submission statistics.
+"""
+
 from sqlalchemy import create_engine, Column, String, Boolean, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker

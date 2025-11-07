@@ -1,3 +1,10 @@
+"""
+Contact form submission routes.
+
+Handles contact form submissions with auto-verification, spam protection,
+rate limiting, and email delivery via Resend API.
+"""
+
 from fastapi import APIRouter, HTTPException, Request
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
