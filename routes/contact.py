@@ -6,8 +6,8 @@ import resend
 import os
 import re
 
-from database import SessionLocal, VerifiedDomain
-from schemas import ContactForm
+from core.database import SessionLocal, VerifiedDomain
+from core.schemas import ContactForm
 
 router = APIRouter()
 

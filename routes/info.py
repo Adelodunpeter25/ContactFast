@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import func, desc
-from database import SessionLocal, VerifiedDomain
+from core.database import SessionLocal, VerifiedDomain
 from datetime import datetime, timedelta
 
 router = APIRouter()
