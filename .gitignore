@@ -7,3 +7,4 @@ server.log
 mypy.ini
 ruff.toml
 .python-version
+*.DS_Store
