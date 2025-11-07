@@ -7,31 +7,19 @@ and other validation checks.
 
 import re
 from urllib.parse import urlparse
+from pathlib import Path
 
-# Disposable email domains
-DISPOSABLE_DOMAINS = {
-    'tempmail.com', 'guerrillamail.com', '10minutemail.com', 'throwaway.email',
-    'mailinator.com', 'trashmail.com', 'fakeinbox.com', 'yopmail.com',
-    'temp-mail.org', 'getnada.com', 'maildrop.cc', 'sharklasers.com',
-    'mintemail.com', 'emailondeck.com', 'mohmal.com', 'mytemp.email',
-    'dispostable.com', 'throwawaymail.com', 'tempinbox.com', 'guerrillamailblock.com',
-    'spamgourmet.com', 'mailnesia.com', 'mailcatch.com', 'mailnator.com',
-    'getairmail.com', 'harakirimail.com', 'anonymousemail.me', 'deadaddress.com',
-    'emailsensei.com', 'mailexpire.com', 'tempr.email', 'tempmail.net',
-    'disposablemail.com', 'burnermail.io', 'guerrillamail.net', 'guerrillamail.org',
-    'guerrillamail.biz', 'spam4.me', 'grr.la', 'guerrillamail.de',
-    'trbvm.com', 'mailforspam.com', 'spambox.us', 'incognitomail.org',
-    'tmailinator.com', 'spamfree24.org', 'spamfree24.com', 'spamfree24.eu',
-    'spamfree24.net', 'spamfree24.info', 'spamfree24.de', 'wegwerfmail.de',
-    'wegwerfmail.net', 'wegwerfmail.org', 'trashmail.net', 'trashmail.org',
-    'trashmail.me', 'trashmail.de', 'trashmail.at', 'trashmail.fr',
-    'trashmail.ws', 'trash-mail.com', 'trash-mail.de', 'trash-mail.at',
-    'trash-mail.cf', 'trash-mail.ga', 'trash-mail.gq', 'trash-mail.ml',
-    'trash-mail.tk', 'mailtemp.info', 'mailtemp.net', 'mailtemp.org',
-    'tempmail.de', 'tempmail.eu', 'tempmail.us', 'tempmail.it',
-    'tempmail.fr', 'tempmail.co', 'tempmail.ninja', 'tempmail.plus',
-    'tempmail.email', 'tempmail.io', 'tempmail.dev', 'tempmail.top'
-}
+# Load disposable domains from config file
+def _load_disposable_domains() -> set:
+    """Load disposable domains from configuration file"""
+    config_path = Path(__file__).parent.parent / "disposable_domains.conf"
+    try:
+        with open(config_path, 'r') as f:
+            return {line.strip().lower() for line in f if line.strip()}
+    except FileNotFoundError:
+        return set()
+
+DISPOSABLE_DOMAINS = _load_disposable_domains()
 
 
 def extract_domain(website_url: str) -> str:
