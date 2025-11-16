@@ -10,18 +10,23 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-# Load disposable domains from config file
-def _load_disposable_domains() -> set:
-    """Load disposable domains from configuration file"""
-    config_path = Path(__file__).parent.parent / "disposable_domains.conf"
-    try:
-        with open(config_path) as f:
-            return {line.strip().lower() for line in f if line.strip()}
-    except FileNotFoundError:
-        return set()
+# Cache for disposable domains
+_disposable_domains_cache: set | None = None
 
 
-DISPOSABLE_DOMAINS = _load_disposable_domains()
+def _get_disposable_domains() -> set:
+    """Load disposable domains from configuration file (cached)"""
+    global _disposable_domains_cache
+    
+    if _disposable_domains_cache is None:
+        config_path = Path(__file__).parent.parent / "disposable_domains.conf"
+        try:
+            with open(config_path) as f:
+                _disposable_domains_cache = {line.strip().lower() for line in f if line.strip()}
+        except FileNotFoundError:
+            _disposable_domains_cache = set()
+    
+    return _disposable_domains_cache
 
 
 def extract_domain(website_url: str) -> str:
@@ -36,7 +41,7 @@ def extract_domain(website_url: str) -> str:
 def is_disposable_email(email: str) -> bool:
     """Check if email is from a disposable domain"""
     domain = email.split("@")[-1].lower()
-    return domain in DISPOSABLE_DOMAINS
+    return domain in _get_disposable_domains()
 
 
 def is_spam_content(message: str, subject: str = "") -> bool:
